@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import { Link } from 'react-router-dom';
 // Note: I couldn't find api.js earlier with find_by_name. But PassTypeAdmin imports it from '../../api/api'.
 // So it must be in src/api/api.js. Wait, list_dir said src/api does not exist.
 // Let me double check PassTypeAdmin import again.
@@ -183,12 +184,14 @@ const EventAdmin = () => {
             header: 'Actions',
             cell: info => (
                 <div className="flex gap-2">
+                    <Link to={`/admin/events/${info.row.original.id}`} className="bg-teal-600 text-white px-3 py-1.5 rounded hover:bg-teal-700 transition shadow-sm text-sm">
                     <button
-                        onClick={() => navigate(`admin/events/${info.row.original.id}`)}
+                        onClick=""
                         className="bg-teal-600 text-white px-3 py-1.5 rounded hover:bg-teal-700 transition shadow-sm text-sm"
                     >
                         Manage
                     </button>
+                    </Link>
                     <button
                         onClick={() => setEditingEvent(info.row.original)}
                         className="bg-yellow-600 text-white px-3 py-1.5 rounded hover:bg-yellow-700 transition shadow-sm text-sm"
