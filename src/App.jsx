@@ -30,6 +30,7 @@ const Navbar = () => {
     { to: "/admin/users", label: "Users" },
     { to: "/admin/munreg", label: "abMUN" },
     { to: "/admin/lookup", label: "Lookup" },
+    { to: "/adming/scan-pass", label: "Scan Pass" },
     // { to: "/admin/sales", label: "Sales" },
     // { to: "/admin/passes", label: "Passes" },
     // { to: "/admin/accommodation", label: "Accommodation" },
@@ -134,6 +135,7 @@ const App = () => {
             <Route path="/admin/users" element={<UserAdmin />} />
             <Route path="/admin/munreg" element={<MUNReg />} />
             <Route path="/admin/lookup" element={<UserLookup />} />
+            <Route path="/adming/scan-pass" element={<ScanPass />} />
             {/* <Route path="/admin/sales" element={<SalesAdmin />} /> */}
             {/* <Route path="/admin/passes" element={<PassTypeAdmin />} /> */}
             {/* <Route path="/admin/accommodation" element={<AccommodationTypeAdmin />} /> */}
