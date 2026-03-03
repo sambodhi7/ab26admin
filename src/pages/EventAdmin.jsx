@@ -211,12 +211,12 @@ const EventAdmin = () => {
                     >
                         Edit
                     </button>
-                    <button
+                    {/* <button
                         onClick={() => handleDelete(info.row.original.id)}
                         className="bg-red-600 text-white px-3 py-1.5 rounded hover:bg-red-700 transition shadow-sm text-sm"
                     >
                         Delete
-                    </button>
+                    </button> */}
                 </div>
             )
         }
