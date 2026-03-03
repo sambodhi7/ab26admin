@@ -20,46 +20,48 @@ const ReadOnlyTable = ({ data, columns, loading, emptyMessage }) => {
         getFilteredRowModel: getFilteredRowModel(),
     });
 
-    if (loading) return <div className="p-8 text-center text-gray-500 animate-pulse">Loading data...</div>;
+    if (loading) return <div className="p-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs animate-pulse">Loading data...</div>;
 
     return (
-        <div className="space-y-4">
-            <div className="flex justify-end">
+        <div className="space-y-6">
+            <div className="flex justify-end pr-0.5">
                 <input
                     value={globalFilter ?? ''}
                     onChange={e => setGlobalFilter(e.target.value)}
-                    placeholder="Search..."
-                    className="px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-64"
+                    placeholder="Search records..."
+                    className="px-4 py-3 bg-white border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-blue-500 w-full md:w-64 text-sm shadow-sm transition-all"
                 />
             </div>
-            <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
-                <table className="w-full text-left">
-                    <thead className="bg-gray-50">
-                        {table.getHeaderGroups().map(hg => (
-                            <tr key={hg.id}>
-                                {hg.headers.map(h => (
-                                    <th key={h.id} className="p-4 text-xs font-bold text-gray-500 uppercase">
-                                        {flexRender(h.column.columnDef.header, h.getContext())}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {table.getRowModel().rows.map(row => (
-                            <tr key={row.id} className="hover:bg-gray-50">
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id} className="p-4 text-sm text-gray-700">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                        {data.length === 0 && (
-                            <tr><td colSpan={columns.length} className="p-8 text-center text-gray-400">{emptyMessage}</td></tr>
-                        )}
-                    </tbody>
-                </table>
+            <div className="bg-white border border-gray-100 rounded-lg shadow-xl shadow-gray-200/40 overflow-hidden">
+                <div className="overflow-x-auto overflow-y-hidden cursor-move active:cursor-grabbing">
+                    <table className="w-full text-left min-w-[900px]">
+                        <thead className="bg-gray-50/50 border-b border-gray-100">
+                            {table.getHeaderGroups().map(hg => (
+                                <tr key={hg.id}>
+                                    {hg.headers.map(h => (
+                                        <th key={h.id} className="p-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                            {flexRender(h.column.columnDef.header, h.getContext())}
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {table.getRowModel().rows.map(row => (
+                                <tr key={row.id} className="hover:bg-blue-50/10 transition-colors group">
+                                    {row.getVisibleCells().map(cell => (
+                                        <td key={cell.id} className="p-4 text-sm text-gray-700">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                            {data.length === 0 && (
+                                <tr><td colSpan={columns.length} className="p-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">{emptyMessage}</td></tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
@@ -238,28 +240,30 @@ const SalesAdmin = () => {
 
 
     return (
-        <div className="p-6 max-w-7xl mx-auto">
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Sales & Transactions</h2>
-            <p className="text-gray-500 mb-8">Read-only view of all financial activities.</p>
+        <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in duration-500">
+            <div className="flex flex-col gap-2">
+                <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tighter uppercase">Sales & Transactions</h2>
+                <p className="text-gray-500 font-medium text-sm">Read-only view of all financial activities.</p>
+            </div>
 
-            <div className="flex border-b mb-6">
+            <div className="flex border-b border-gray-100 overflow-x-auto no-scrollbar scroll-smooth">
                 <button
                     onClick={() => setActiveTab('passes')}
-                    className={`px-6 py-3 font-medium text-sm transition-colors border-b-2 ${activeTab === 'passes' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+                    className={`px-6 py-4 font-black text-[10px] uppercase tracking-widest transition-all border-b-2 whitespace-nowrap ${activeTab === 'passes' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-400 hover:text-gray-600'
                         }`}
                 >
                     Sold Passes
                 </button>
                 <button
                     onClick={() => setActiveTab('accommodation')}
-                    className={`px-6 py-3 font-medium text-sm transition-colors border-b-2 ${activeTab === 'accommodation' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+                    className={`px-6 py-4 font-black text-[10px] uppercase tracking-widest transition-all border-b-2 whitespace-nowrap ${activeTab === 'accommodation' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-400 hover:text-gray-600'
                         }`}
                 >
                     Sold Accommodation
                 </button>
                 <button
                     onClick={() => setActiveTab('transactions')}
-                    className={`px-6 py-3 font-medium text-sm transition-colors border-b-2 ${activeTab === 'transactions' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+                    className={`px-6 py-4 font-black text-[10px] uppercase tracking-widest transition-all border-b-2 whitespace-nowrap ${activeTab === 'transactions' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-400 hover:text-gray-600'
                         }`}
                 >
                     All Transactions

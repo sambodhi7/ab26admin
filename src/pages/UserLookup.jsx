@@ -47,32 +47,32 @@ const UserLookup = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="p-4 sm:p-6 max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in duration-500">
             <div className="flex flex-col gap-2">
-                <h2 className="text-3xl font-bold text-gray-900 tracking-tight">User Finder</h2>
-                <p className="text-gray-500 font-medium">Quickly locate participants using their ABID or Serial Number.</p>
+                <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tighter uppercase">User Finder</h2>
+                <p className="text-gray-500 font-medium text-sm">Quickly locate participants using their ABID or Serial Number.</p>
             </div>
 
             {/* Search Bar */}
-            <div className="bg-white p-2 rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 flex items-center gap-2">
-                <form onSubmit={handleLookup} className="flex-1 flex gap-2">
+            <div className="bg-white p-2 rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100">
+                <form onSubmit={handleLookup} className="flex flex-col sm:flex-row gap-2">
                     <div className="relative flex-1">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <span className="text-gray-400 font-bold text-sm tracking-widest">ABID</span>
+                            <span className="text-gray-400 font-black text-[10px] sm:text-xs tracking-widest uppercase">ID</span>
                         </div>
                         <input
                             type="text"
                             value={abid}
                             onChange={(e) => setAbid(e.target.value)}
                             placeholder="e.g. AB0042 or 42"
-                            className="w-full pl-16 pr-4 py-4 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none font-mono text-lg font-bold text-gray-800 transition-all"
+                            className="w-full pl-12 sm:pl-16 pr-4 py-3 sm:py-4 bg-gray-50 border-0 rounded-xl focus:ring-1 focus:ring-yellow-500 outline-none font-mono text-base sm:text-lg font-bold text-gray-800 transition-all"
                             autoFocus
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={loading}
-                        className="bg-yellow-500 text-black px-8 py-4 rounded-xl font-bold hover:bg-yellow-600 transition-all shadow-lg shadow-yellow-500/20 disabled:opacity-50 flex items-center gap-2"
+                        className="bg-yellow-500 text-black px-8 py-3 sm:py-4 rounded-xl font-black text-sm uppercase tracking-widest hover:bg-yellow-600 transition-all shadow-lg shadow-yellow-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
@@ -88,18 +88,18 @@ const UserLookup = () => {
 
             {error && (
                 <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
-                    <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-red-700 font-medium">{error}</span>
+                    <span className="text-red-700 font-medium text-sm">{error}</span>
                 </div>
             )}
 
             {result && (
                 <div className="bg-white border border-gray-100 border-l-4 border-l-yellow-500 rounded-2xl shadow-lg shadow-gray-200/40 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+                    <div className="p-6 border-b border-gray-50 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50/30 gap-4">
                         <div>
-                            <h3 className="text-2xl font-bold text-gray-900 tracking-tight">{result.name}</h3>
+                            <h3 className="text-2xl font-black text-gray-900 tracking-tighter uppercase">{result.name}</h3>
                             <p className="text-[10px] text-yellow-600 font-bold uppercase tracking-widest">Verified Participant</p>
                         </div>
                         <div className="px-4 py-2 bg-yellow-50 border border-yellow-100 rounded-xl text-sm font-mono font-bold text-yellow-700 shadow-sm">
@@ -107,44 +107,47 @@ const UserLookup = () => {
                         </div>
                     </div>
 
-                    <div className="p-8 grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm">
+                    <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-sm">
                         <div className="space-y-6">
                             <div className="p-4 bg-gray-50/50 rounded-xl border border-gray-100/50">
-                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">Contact Details</label>
+                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-black mb-2">Contact Details</label>
                                 <div className="space-y-1">
-                                    <p className="text-gray-900 font-medium truncate">{result.email}</p>
+                                    <p className="text-gray-900 font-bold truncate">{result.email}</p>
                                     <p className="text-gray-600 font-medium">{result.phoneNumber || 'No phone provided'}</p>
                                 </div>
                             </div>
                             <div className="p-4 bg-gray-50/50 rounded-xl border border-gray-100/50">
-                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">Institutional Info</label>
-                                <p className="text-gray-900 font-medium">{result.collegeName || 'Not Specified'}</p>
+                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-black mb-2">Institutional Info</label>
+                                <p className="text-gray-900 font-bold">{result.collegeName || 'Not Specified'}</p>
                             </div>
                         </div>
 
                         <div className="space-y-6">
                             <div className="p-4 bg-gray-50/50 rounded-xl border border-gray-100/50">
-                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">Activity Tracking</label>
+                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-black mb-2">Activity Tracking</label>
                                 <div className="space-y-3">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-500">Pass Status</span>
-                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter ${result.purchasedPasses?.length > 0 ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                                    <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-wider">
+                                        <span className="text-gray-400">Pass Status</span>
+                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter ${result.purchasedPasses?.length > 0 ? "bg-green-100 text-green-700 border border-green-200" : "bg-gray-100 text-gray-400 border border-gray-200"}`}>
                                             {result.purchasedPasses?.length > 0 ? "Active" : "None"}
                                         </span>
                                     </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-500">Registrations</span>
-                                        <span className="font-bold text-gray-900 text-base">{result.registrations?.length || 0}</span>
+                                    <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-wider">
+                                        <span className="text-gray-400">Registrations</span>
+                                        <span className="font-black text-gray-900 text-lg">{result.registrations?.length || 0}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="px-4 py-3">
-                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">System Identifier</label>
+                                <label className="block text-[10px] uppercase tracking-wider text-gray-400 font-black mb-2">System Identifier</label>
                                 <div className="flex items-center gap-2 group">
-                                    <code className="text-[11px] font-mono text-gray-400 truncate flex-1">{result.id}</code>
+                                    <code className="text-[10px] font-mono text-gray-400 truncate flex-1">{result.id}</code>
                                     <button
-                                        onClick={() => navigator.clipboard.writeText(result.id)}
-                                        className="p-1.5 text-gray-300 hover:text-yellow-600 hover:bg-yellow-50 rounded-md transition-all"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(result.id);
+                                            alert("Copied to clipboard");
+                                        }}
+                                        className="p-1.5 text-gray-300 hover:text-yellow-600 hover:bg-yellow-50 rounded-md transition-all flex-shrink-0"
                                         title="Copy UID"
                                     >
                                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

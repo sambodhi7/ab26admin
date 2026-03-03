@@ -399,56 +399,58 @@ const TeamAdmin = () => {
     if (loading) return <div className="p-8 text-center">Loading teams...</div>;
 
     return (
-        <div className="p-6 max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in duration-500">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 className="text-3xl font-extrabold text-gray-900">Team Management</h2>
-                    <p className="text-gray-500">Create teams, assign leaders, and manage members.</p>
+                    <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tighter uppercase">Team Management</h2>
+                    <p className="text-gray-500 font-medium text-sm">Create teams, assign leaders, and manage members.</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                     <input
                         value={globalFilter ?? ''}
                         onChange={e => setGlobalFilter(e.target.value)}
                         placeholder="Search teams, leaders..."
-                        className="px-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-3 bg-white border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-blue-500 shadow-sm text-sm"
                     />
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700 transition"
+                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-black text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 whitespace-nowrap"
                     >
-                        + Create Team
+                        + CREATE TEAM
                     </button>
                 </div>
             </div>
 
-            <div className="bg-white border rounded-2xl shadow-sm overflow-hidden">
-                <table className="w-full text-left">
-                    <thead className="bg-gray-50">
-                        {table.getHeaderGroups().map(hg => (
-                            <tr key={hg.id}>
-                                {hg.headers.map(h => (
-                                    <th key={h.id} className="p-4 text-xs font-bold text-gray-500 uppercase">
-                                        {flexRender(h.column.columnDef.header, h.getContext())}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {table.getRowModel().rows.map(row => (
-                            <tr key={row.id} className="hover:bg-gray-50">
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id} className="p-4 text-sm text-gray-700">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                        {teams.length === 0 && (
-                            <tr><td colSpan={5} className="p-8 text-center text-gray-400">No teams found. Create one to get started.</td></tr>
-                        )}
-                    </tbody>
-                </table>
+            <div className="bg-white border border-gray-100 rounded-lg shadow-xl shadow-gray-200/40 overflow-hidden">
+                <div className="overflow-x-auto overflow-y-hidden cursor-move active:cursor-grabbing">
+                    <table className="w-full text-left min-w-[900px]">
+                        <thead className="bg-gray-50/50 border-b border-gray-100">
+                            {table.getHeaderGroups().map(hg => (
+                                <tr key={hg.id}>
+                                    {hg.headers.map(h => (
+                                        <th key={h.id} className="p-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                            {flexRender(h.column.columnDef.header, h.getContext())}
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {table.getRowModel().rows.map(row => (
+                                <tr key={row.id} className="hover:bg-blue-50/10 transition-colors group">
+                                    {row.getVisibleCells().map(cell => (
+                                        <td key={cell.id} className="p-4 text-sm text-gray-700">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                            {teams.length === 0 && (
+                                <tr><td colSpan={5} className="p-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">No teams found.</td></tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {/* MODALS */}

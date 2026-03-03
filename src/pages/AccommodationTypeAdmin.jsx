@@ -216,66 +216,67 @@ const AccommodationTypeAdmin = () => {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Accommodation</h2>
-          <p className="text-gray-500">Manage rooms, hostel capacity, and pricing.</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tighter uppercase">Accommodation</h2>
+          <p className="text-gray-500 font-medium text-sm">Manage rooms, hostel capacity, and pricing.</p>
         </div>
 
-        <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="relative flex-grow md:w-64">
+        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <div className="relative flex-1 md:w-64">
             <input
               value={globalFilter ?? ''}
               onChange={e => setGlobalFilter(e.target.value)}
               placeholder="Search rooms..."
-              className="w-full pl-4 pr-10 py-2.5 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-green-500 text-sm shadow-sm transition-all"
             />
-            <span className="absolute right-3 top-3 text-gray-400">🔍</span>
           </div>
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="bg-green-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-green-700 transition shadow-lg whitespace-nowrap"
+            className="bg-green-600 text-white px-6 py-3 rounded-lg font-black text-sm hover:bg-green-700 transition shadow-lg shadow-green-600/20 whitespace-nowrap"
           >
-            + Add Type
+            + ADD TYPE
           </button>
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            {table.getHeaderGroups().map(hg => (
-              <tr key={hg.id} className="bg-gray-50/50">
-                {hg.headers.map(h => (
-                  <th key={h.id} className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                    {flexRender(h.column.columnDef.header, h.getContext())}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {table.getRowModel().rows.length > 0 ? (
-              table.getRowModel().rows.map(row => (
-                <tr key={row.id} className="hover:bg-yellow-50/30 transition-colors">
-                  {row.getVisibleCells().map(cell => (
-                    <td key={cell.id} className="p-4 text-gray-700 text-sm">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
+      <div className="bg-white border border-gray-100 rounded-lg shadow-xl shadow-gray-200/40 overflow-hidden">
+        <div className="overflow-x-auto overflow-y-hidden cursor-move active:cursor-grabbing">
+          <table className="w-full text-left min-w-[800px]">
+            <thead className="bg-gray-50/50 border-b border-gray-100">
+              {table.getHeaderGroups().map(hg => (
+                <tr key={hg.id}>
+                  {hg.headers.map(h => (
+                    <th key={h.id} className="p-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                      {flexRender(h.column.columnDef.header, h.getContext())}
+                    </th>
                   ))}
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={columns.length} className="p-12 text-center text-gray-400 italic">
-                  No matching accommodation types found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {table.getRowModel().rows.length > 0 ? (
+                table.getRowModel().rows.map(row => (
+                  <tr key={row.id} className="hover:bg-green-50/10 transition-colors group">
+                    {row.getVisibleCells().map(cell => (
+                      <td key={cell.id} className="p-4 text-gray-700 text-sm">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="p-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
+                    No matching accommodation found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {showAddModal && (
