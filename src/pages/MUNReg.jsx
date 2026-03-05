@@ -183,6 +183,7 @@ const MUNReg = () => {
     const [globalFilter, setGlobalFilter] = useState('');
     const [showMissing, setShowMissing] = useState(false);
     const [munEvent, setMunEvent] = useState(null);
+    const [passFilter, setPassFilter] = useState('all'); // 'all', 'purchased', 'not-purchased'
 
     const fetchMainRegistrations = async () => {
         try {
@@ -302,6 +303,27 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
             return !boardEmails.has(email) && !boardUserIds.has(userId);
         });
     }, [allRegistrations, registrations]);
+
+    const filteredRegistrations = React.useMemo(() => {
+        return registrations.filter(r => {
+            const user = getUserInfoByAbId(r.d1AbId) || r.user;
+            const hasPass = user?.purchasedPasses?.length > 0;
+            if (passFilter === 'purchased') return hasPass;
+            if (passFilter === 'not-purchased') return !hasPass;
+            return true;
+        });
+    }, [registrations, passFilter, userMap]);
+
+    const purchaseCounts = React.useMemo(() => {
+        let purchased = 0;
+        let notPurchased = 0;
+        registrations.forEach(r => {
+            const user = getUserInfoByAbId(r.d1AbId) || r.user;
+            if (user?.purchasedPasses?.length > 0) purchased++;
+            else notPurchased++;
+        });
+        return { purchased, notPurchased, total: registrations.length };
+    }, [registrations, userMap]);
 
     const renderCoDelegateCell = (abid) => {
         if (!abid) return <span className="text-gray-300 text-[10px] italic">None</span>;
@@ -524,7 +546,7 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
     ];
 
     const table = useReactTable({
-        data: registrations,
+        data: filteredRegistrations,
         columns,
         state: { globalFilter },
         onGlobalFilterChange: setGlobalFilter,
@@ -567,6 +589,26 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
                     <p className="text-gray-500 font-medium text-sm">Model United Nations delegate management system.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                    <div className="flex bg-gray-100 p-1 rounded-lg gap-1 border border-gray-200">
+                        <button
+                            onClick={() => setPassFilter('all')}
+                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'all' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                        >
+                            All ({purchaseCounts.total})
+                        </button>
+                        <button
+                            onClick={() => setPassFilter('purchased')}
+                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'purchased' ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-gray-500 hover:text-emerald-600'}`}
+                        >
+                            Pass ({purchaseCounts.purchased})
+                        </button>
+                        <button
+                            onClick={() => setPassFilter('not-purchased')}
+                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'not-purchased' ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20' : 'text-gray-500 hover:text-rose-600'}`}
+                        >
+                            No Pass ({purchaseCounts.notPurchased})
+                        </button>
+                    </div>
                     <div className="relative flex-1 md:w-64">
                         <input
                             value={globalFilter ?? ''}
@@ -625,6 +667,8 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
                                         <p className="text-[10px] font-mono text-gray-500 truncate">{user?.email || 'No email'}</p>
                                         <div className="flex items-center gap-2 mt-1">
                                             <p className="text-[10px] text-gray-400 font-bold uppercase">{abId}</p>
+                                            <span className="h-1 w-1 bg-gray-200 rounded-full"></span>
+                                            <p className="text-[10px] text-indigo-500 font-bold">ID: {reg.id}</p>
                                             <span className="h-1 w-1 bg-gray-200 rounded-full"></span>
                                             <p className="text-[10px] text-emerald-600 font-bold">{user?.phoneNumber || 'No phone'}</p>
                                         </div>
@@ -692,7 +736,7 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
                                     ))}
                                 </tr>
                             ))}
-                            {registrations.length === 0 && (
+                            {table.getRowModel().rows.length === 0 && (
                                 <tr>
                                     <td colSpan={5} className="p-20 text-center">
                                         <div className="flex flex-col items-center gap-3">
