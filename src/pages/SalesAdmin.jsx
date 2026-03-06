@@ -114,6 +114,7 @@ const SalesAdmin = () => {
         { header: 'User Email', accessorFn: row => row.user?.email },
         { header: 'Accommodation Type', accessorFn: row => row.accommodationType?.name },
         { header: 'Price (₹)', accessorFn: row => row.accommodationType?.price },
+        { header: 'Days', accessorKey: 'quantity' },
         { header: 'Transaction ID', accessorFn: row => row.transaction?.razorpay_payment_id || 'N/A' },
         { header: 'Date', accessorFn: row => new Date(row.created_at).toLocaleString() }
     ];
@@ -165,7 +166,20 @@ const SalesAdmin = () => {
             )
         },
         { header: 'Accommodation', accessorFn: row => row.accommodationType?.name },
-        { header: 'Price', accessorFn: row => row.accommodationType?.price, cell: info => `₹${info.getValue()}` },
+        {
+            header: 'Price',
+            accessorFn: row => row.accommodationType?.price,
+            cell: info => <span className="font-bold text-gray-700">₹{info.getValue()}</span>
+        },
+        {
+            header: 'Days',
+            accessorKey: 'quantity',
+            cell: info => (
+                <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[10px] font-black border border-blue-100 uppercase">
+                    {info.getValue() || 1} Days
+                </span>
+            )
+        },
         {
             header: 'Transaction ID',
             accessorFn: row => row.transaction?.razorpay_payment_id || 'N/A',

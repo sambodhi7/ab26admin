@@ -51,12 +51,15 @@ const UserDetailsModal = ({ user, onClose }) => {
                         <h3 className="text-lg font-bold text-gray-800 mb-2 border-l-4 border-blue-500 pl-2">Accommodation</h3>
                         {user.accomodationBookings?.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {user.accomodationBookings.map(acc => (
-                                    <div key={acc.id} className="bg-blue-50 border border-blue-100 p-3 rounded-lg">
+                                <div key={acc.id} className="bg-blue-50 border border-blue-100 p-3 rounded-lg flex justify-between items-center">
+                                    <div>
                                         <div className="font-bold text-blue-800">{acc.accommodationType.name}</div>
                                         <div className="text-xs text-blue-600">Price: ₹{acc.accommodationType.price}</div>
                                     </div>
-                                ))}
+                                    <div className="text-[10px] font-black bg-white/50 px-2 py-1 rounded border border-blue-200 text-blue-700 uppercase">
+                                        {acc.quantity || 1} Days
+                                    </div>
+                                </div>
                             </div>
                         ) : (
                             <p className="text-gray-400 italic text-sm">No accommodation booked.</p>

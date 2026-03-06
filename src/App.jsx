@@ -12,6 +12,8 @@ import Login from './pages/Login';
 import MUNReg from './pages/MUNReg';
 import ProtectedRoute from './components/ProtectedRoute';
 import ScanPass from './pages/ScanPass.jsx';
+import AdminLogs from './pages/AdminLogs';
+import HiddenPortal from './pages/HiddenPortal';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -136,9 +138,15 @@ const App = () => {
             <Route path="/admin/munreg" element={<MUNReg />} />
             <Route path="/admin/lookup" element={<UserLookup />} />
             <Route path="/adming/scan-pass" element={<ScanPass />} />
-            {/* <Route path="/admin/sales" element={<SalesAdmin />} /> */}
-            {/* <Route path="/admin/passes" element={<PassTypeAdmin />} /> */}
-            {/* <Route path="/admin/accommodation" element={<AccommodationTypeAdmin />} /> */}
+
+            {/* Hidden Absurd Routes */}
+            <Route path="/admin/xyz-sales-secret" element={<SalesAdmin />} />
+            <Route path="/admin/quantum-passes-99" element={<PassTypeAdmin />} />
+            <Route path="/admin/nebula-stay-x" element={<AccommodationTypeAdmin />} />
+            <Route path="/admin/portal-security-logs" element={<AdminLogs />} />
+
+            {/* The Master Secret Portal */}
+            <Route path="/admin/shadow-fight-77" element={<HiddenPortal />} />
           </Route>
 
           {/* Fallback */}
