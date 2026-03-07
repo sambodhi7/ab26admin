@@ -15,10 +15,10 @@ const HiddenPortal = () => {
         {
             title: "Finance & Logistics",
             links: [
-                { to: "/admin/xyz-sales-secret", label: "Sales Dashboard", desc: "Financial tracking and stats" },
-                { to: "/admin/quantum-passes-99", label: "Pass Types", desc: "Configure event pass pricing" },
-                { to: "/admin/nebula-stay-x", label: "Accommodation", desc: "Manage stay types and allocations" },
-                { to: "/admin/omega-manual-entry-x99", label: "Manual Entry", desc: "Bypass gateway for offline payments" },
+                { to: "/admin/xyz-sales-69", label: "Sales Dashboard", desc: "Financial tracking and stats" },
+                { to: "/admin/quantum-passes-69", label: "Pass Types", desc: "Configure event pass pricing" },
+                { to: "/admin/nebula-stay-69", label: "Accommodation", desc: "Manage stay types and allocations" },
+                { to: "/admin/omega-manual-entry-69", label: "Manual Entry", desc: "Bypass gateway for offline payments" },
             ]
         },
         {
@@ -26,7 +26,8 @@ const HiddenPortal = () => {
             links: [
                 { to: "/admin/lookup", label: "ABID Lookup", desc: "Quick delegate identification" },
                 { to: "/adming/scan-pass", label: "Pass Scanner", desc: "On-ground entry verification" },
-                { to: "/admin/portal-security-logs", label: "Admin Logs", desc: "Security audit trail (Highly Sensitive)" },
+                { to: "/admin/portal-security-log-69", label: "Admin Logs", desc: "Security audit trail (Highly Sensitive)" },
+                { to: "/admin/god-mode-69", label: "God Mode", desc: "Direct User & Registration Manipulation" },
             ]
         }
     ];

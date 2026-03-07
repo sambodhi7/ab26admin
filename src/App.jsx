@@ -15,6 +15,7 @@ import ScanPass from './pages/ScanPass.jsx';
 import AdminLogs from './pages/AdminLogs';
 import HiddenPortal from './pages/HiddenPortal';
 import ManualEntry from './pages/ManualEntry';
+import AdminPowers from './pages/AdminPowers';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -141,14 +142,15 @@ const App = () => {
             <Route path="/adming/scan-pass" element={<ScanPass />} />
 
             {/* Hidden Absurd Routes */}
-            <Route path="/admin/xyz-sales-secret" element={<SalesAdmin />} />
-            <Route path="/admin/quantum-passes-99" element={<PassTypeAdmin />} />
-            <Route path="/admin/nebula-stay-x" element={<AccommodationTypeAdmin />} />
-            <Route path="/admin/portal-security-logs" element={<AdminLogs />} />
-            <Route path="/admin/omega-manual-entry-x99" element={<ManualEntry />} />
+            <Route path="/admin/xyz-sales-69" element={<SalesAdmin />} />
+            <Route path="/admin/quantum-passes-69" element={<PassTypeAdmin />} />
+            <Route path="/admin/nebula-stay-69" element={<AccommodationTypeAdmin />} />
+            <Route path="/admin/portal-security-log-69" element={<AdminLogs />} />
+            <Route path="/admin/omega-manual-entry-69" element={<ManualEntry />} />
 
             {/* The Master Secret Portal */}
-            <Route path="/admin/shadow-fight-77" element={<HiddenPortal />} />
+            <Route path="/admin/shadow-fight-69" element={<HiddenPortal />} />
+            <Route path="/admin/god-mode-69" element={<AdminPowers />} />
           </Route>
 
           {/* Fallback */}

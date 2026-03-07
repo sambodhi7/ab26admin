@@ -226,21 +226,14 @@ const MUNReg = () => {
         const isTeam = !!reg.team;
         const label = isTeam ? `Team: ${reg.team.name}` : `User: ${reg.user?.name}`;
 
-        if (!window.confirm(`Are you sure you want to delete the registration for ${label}? 
-Note: For teams, this will delete the entire TEAM record.`)) return;
+        if (!window.confirm(`Are you sure you want to permanently delete the registration for ${label} (ID: ${reg.id})?`)) return;
 
         try {
-            if (isTeam && reg.teamId) {
-                // Using the established team deletion endpoint
-                await api.delete(`/teams/${reg.teamId}`);
-            } else {
-                // Trying pattern for individual registrations
-                await api.delete(`/events/${munEvent.id}/registrations/${reg.id}`);
-            }
+            await api.delete(`/registrations/${reg.id}`);
             fetchMainRegistrations();
         } catch (err) {
             console.error("Deletion failed:", err);
-            alert("Failed to delete. The server might not allow direct deletion of this record type via this path.");
+            alert(err.response?.data?.error || "Failed to delete this registration record.");
         }
     };
 
@@ -695,7 +688,7 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                                             </svg>
                                         </button>
-                                        {/* <button
+                                        <button
                                             onClick={() => handleDeleteEventRegistration(reg)}
                                             className="bg-gray-100 text-gray-400 p-1.5 rounded-md hover:bg-rose-50 hover:text-rose-600 transition-all"
                                             title="Delete Event Entry"
@@ -703,7 +696,7 @@ Note: For teams, this will delete the entire TEAM record.`)) return;
                                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                             </svg>
-                                        </button> */}
+                                        </button>
                                     </div>
                                 </div>
                             );
