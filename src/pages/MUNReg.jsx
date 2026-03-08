@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-table';
 import api from '../api/api';
 import ExportCsvButton from '../components/ExportCsvButton';
+import UserDetailsModal from '../components/UserDetailsModal';
 
 // --- SUB-COMPONENT: ADD/EDIT MUN REGISTRATION MODAL ---
 const MUNRegModal = ({ registration, onClose, onSuccess }) => {
@@ -184,6 +185,7 @@ const MUNReg = () => {
     const [showMissing, setShowMissing] = useState(false);
     const [munEvent, setMunEvent] = useState(null);
     const [passFilter, setPassFilter] = useState('all'); // 'all', 'purchased', 'not-purchased'
+    const [selectedUser, setSelectedUser] = useState(null);
 
     const fetchMainRegistrations = async () => {
         try {
@@ -336,7 +338,12 @@ const MUNReg = () => {
         return (
             <div className="space-y-1.5 min-w-[140px]">
                 <div className="flex flex-col gap-0.5">
-                    <span className="text-xs font-bold text-gray-900 leading-tight">{coDel.name}</span>
+                    <span
+                        className="text-xs font-bold text-gray-900 leading-tight cursor-pointer hover:text-blue-600 transition-colors uppercase tracking-tight"
+                        onClick={() => setSelectedUser(coDel)}
+                    >
+                        {coDel.name}
+                    </span>
                     <span className="text-[10px] font-mono font-bold text-amber-600 uppercase tracking-tighter">
                         AB{String(coDel.serialId).padStart(5, '0')}
                     </span>
@@ -427,9 +434,15 @@ const MUNReg = () => {
                 const hasPass = user?.purchasedPasses?.length > 0;
                 return (
                     <div className="space-y-1.5 min-w-[200px]">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold text-gray-900">{reg.d1Name}</span>
-                            <span className="text-xs font-bold text-gray-400">({reg.d1AbId})</span>
+                        <div
+                            className="flex items-center gap-2 cursor-pointer group/name"
+                            onClick={() => setSelectedUser(user)}
+                        >
+                            <span className="text-sm font-bold text-gray-900 group-hover/name:text-blue-600 transition-colors uppercase tracking-tight">{reg.d1Name}</span>
+                            <span className="text-[10px] font-black text-gray-400 group-hover/name:text-blue-400 transition-colors">({reg.d1AbId})</span>
+                            <button className="opacity-0 group-hover/name:opacity-100 bg-blue-50 text-blue-600 p-1 rounded transition-all text-[8px] font-black uppercase tracking-widest">
+                                Details
+                            </button>
                         </div>
                         <div className="flex flex-col gap-0.5">
                             <div className="text-xs text-gray-600 font-medium">{user?.phoneNumber || reg.user?.phoneNumber}</div>
@@ -756,6 +769,13 @@ const MUNReg = () => {
                     registration={editingReg}
                     onClose={() => setEditingReg(null)}
                     onSuccess={() => { setEditingReg(null); fetchRegistrations(); }}
+                />
+            )}
+
+            {selectedUser && (
+                <UserDetailsModal
+                    user={selectedUser}
+                    onClose={() => setSelectedUser(null)}
                 />
             )}
         </div>

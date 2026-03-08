@@ -115,7 +115,7 @@ const SalesAdmin = () => {
         { header: 'User Email', accessorFn: row => row.user?.email },
         { header: 'Accommodation Type', accessorFn: row => row.accommodationType?.name },
         { header: 'Price (₹)', accessorFn: row => row.accommodationType?.price },
-        { header: 'Days', accessorKey: 'quantity' },
+        { header: 'Days', accessorFn: row => row.days || row.quantity || 1 },
         { header: 'Transaction ID', accessorFn: row => row.transaction?.razorpay_payment_id || 'N/A' },
         { header: 'Date', accessorFn: row => new Date(row.created_at).toLocaleString() }
     ];
@@ -174,10 +174,10 @@ const SalesAdmin = () => {
         },
         {
             header: 'Days',
-            accessorKey: 'quantity',
+            accessorFn: row => row.days || row.quantity || 1,
             cell: info => (
                 <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[10px] font-black border border-blue-100 uppercase">
-                    {info.getValue() || 1} Days
+                    {info.getValue()} Days
                 </span>
             )
         },
@@ -266,9 +266,7 @@ const SalesAdmin = () => {
         {
             header: 'Amount',
             accessorKey: 'amount',
-            cell: info => <span className="font-bold text-green-700">₹{info.getValue()}</span> // Assuming stored as rupees based on integer types in schema, or check usage. usually razorpay sends paise but schema might store rupees if processed. Let's assume Rupees for now based on 'Int' amount usually being minimal unit in Stripe but customized here.
-            // Actually Razorpay is ALWAYS paise. But let's check one value or assume paise / 100.
-            // Safe bet: Display as is, user knows if it looks like 50000 (500rs) or 500.
+            cell: info => <span className="font-bold text-green-700">₹{(info.getValue() / 100).toFixed(2)}</span>
         },
         {
             header: 'Status',
@@ -330,7 +328,7 @@ const SalesAdmin = () => {
             {activeTab === 'passes' && (
                 <ReadOnlyTable
                     data={data.passes}
-                    columns={passCsvColumns}
+                    columns={passColumns}
                     loading={loading}
                     emptyMessage="No passes sold yet."
                     filename="sales-passes.csv"
@@ -340,7 +338,7 @@ const SalesAdmin = () => {
             {activeTab === 'accommodation' && (
                 <ReadOnlyTable
                     data={data.accommodation}
-                    columns={accomCsvColumns}
+                    columns={accomColumns}
                     loading={loading}
                     emptyMessage="No accommodation booked yet."
                     filename="sales-accommodation.csv"
@@ -350,7 +348,7 @@ const SalesAdmin = () => {
             {activeTab === 'transactions' && (
                 <ReadOnlyTable
                     data={data.transactions}
-                    columns={transCsvColumns}
+                    columns={transColumnsRefined}
                     loading={loading}
                     emptyMessage="No transactions recorded."
                     filename="sales-transactions.csv"
