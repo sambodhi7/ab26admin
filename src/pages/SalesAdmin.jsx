@@ -104,6 +104,7 @@ const SalesAdmin = () => {
     const passCsvColumns = [
         { header: 'User Name', accessorFn: row => row.user?.name },
         { header: 'User Email', accessorFn: row => row.user?.email },
+        { header: 'User Phone', accessorFn: row => row.user?.phoneNumber || 'N/A' },
         { header: 'Pass Name', accessorFn: row => row.passType?.name },
         { header: 'Price (₹)', accessorFn: row => row.passType?.price },
         { header: 'Transaction ID', accessorFn: row => row.transaction?.razorpay_payment_id || 'N/A' },
@@ -113,6 +114,7 @@ const SalesAdmin = () => {
     const accomCsvColumns = [
         { header: 'User Name', accessorFn: row => row.user?.name },
         { header: 'User Email', accessorFn: row => row.user?.email },
+        { header: 'User Phone', accessorFn: row => row.user?.phoneNumber || 'N/A' },
         { header: 'Accommodation Type', accessorFn: row => row.accommodationType?.name },
         { header: 'Price (₹)', accessorFn: row => row.accommodationType?.price },
         { header: 'Days', accessorFn: row => row.days || row.quantity || 1 },
@@ -125,6 +127,7 @@ const SalesAdmin = () => {
         { header: 'Razorpay Order ID', accessorFn: row => row.order?.razorpayOrderId },
         { header: 'User Name', accessorFn: row => row.order?.user?.name || 'Unknown' },
         { header: 'User Email', accessorFn: row => row.order?.user?.email },
+        { header: 'User Phone', accessorFn: row => row.order?.user?.phoneNumber || 'N/A' },
         { header: 'Amount (₹)', accessorFn: row => (row.amount / 100).toFixed(2) },
         { header: 'Status', accessorKey: 'status' },
         { header: 'Date', accessorFn: row => new Date(row.created_at).toLocaleString() }
@@ -213,6 +216,7 @@ const SalesAdmin = () => {
                 <div>
                     <div className="font-bold">{info.row.original.order?.user?.name || 'Unknown'}</div>
                     <div className="text-xs text-gray-500">{info.row.original.order?.user?.email}</div>
+                    <div className="text-[10px] text-gray-400 font-mono">{info.row.original.order?.user?.phoneNumber || 'No phone'}</div>
                 </div>
             )
         },
@@ -260,6 +264,7 @@ const SalesAdmin = () => {
                 <div>
                     <div className="font-bold">{info.row.original.order?.user?.name || 'Unknown'}</div>
                     <div className="text-xs text-gray-500">{info.row.original.order?.user?.email}</div>
+                    <div className="text-[10px] text-gray-400 font-mono">{info.row.original.order?.user?.phoneNumber || 'No phone'}</div>
                 </div>
             )
         },

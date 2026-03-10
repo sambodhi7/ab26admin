@@ -250,6 +250,7 @@ const ManageMembersModal = ({ team, onClose, onSuccess }) => {
                             <tr>
                                 <th className="p-3 text-xs font-bold text-gray-500 uppercase">Name</th>
                                 <th className="p-3 text-xs font-bold text-gray-500 uppercase">Email</th>
+                                <th className="p-3 text-xs font-bold text-gray-500 uppercase">Phone</th>
                                 <th className="p-3 text-xs font-bold text-gray-500 uppercase">Role</th>
                                 <th className="p-3 text-xs font-bold text-gray-500 uppercase">Action</th>
                             </tr>
@@ -259,6 +260,7 @@ const ManageMembersModal = ({ team, onClose, onSuccess }) => {
                                 <tr className="bg-blue-50/50">
                                     <td className="p-3">{teamDetails.leader.name}</td>
                                     <td className="p-3 font-mono text-sm">{teamDetails.leader.email}</td>
+                                    <td className="p-3 font-mono text-sm">{teamDetails.leader.phoneNumber || 'N/A'}</td>
                                     <td className="p-3"><span className="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">LEADER</span></td>
                                     <td className="p-3 text-gray-400 text-xs italic">Cannot Remove</td>
                                 </tr>
@@ -267,6 +269,7 @@ const ManageMembersModal = ({ team, onClose, onSuccess }) => {
                                 <tr key={m.id}>
                                     <td className="p-3">{m.user?.name}</td>
                                     <td className="p-3 font-mono text-sm">{m.user?.email}</td>
+                                    <td className="p-3 font-mono text-sm">{m.user?.phoneNumber || 'N/A'}</td>
                                     <td className="p-3"><span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">MEMBER</span></td>
                                     <td className="p-3">
                                         <button
@@ -349,9 +352,13 @@ const TeamAdmin = () => {
             accessorFn: row => row.leader?.email
         },
         {
+            header: 'Leader Phone',
+            accessorFn: row => row.leader?.phoneNumber || 'N/A'
+        },
+        {
             header: 'Members',
             accessorFn: row => {
-                const memberNames = row.members?.map(m => m.user?.name).filter(Boolean).join('; ') || 'None';
+                const memberNames = row.members?.map(m => m.user?.name ? `${m.user?.name} (${m.user?.phoneNumber || 'N/A'})` : null).filter(Boolean).join('; ') || 'None';
                 return memberNames;
             }
         },
@@ -384,6 +391,7 @@ const TeamAdmin = () => {
                 <div>
                     <div className="font-semibold text-sm">{info.row.original.leader?.name}</div>
                     <div className="text-xs text-gray-500">{info.row.original.leader?.email}</div>
+                    <div className="text-[10px] text-gray-400 font-mono">{info.row.original.leader?.phoneNumber || 'No phone'}</div>
                 </div>
             )
         },

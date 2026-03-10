@@ -130,6 +130,7 @@ const RegistrationDetailsModal = ({ registration, onClose }) => {
                                     <thead className="bg-gray-100">
                                         <tr>
                                             <th className="p-2 font-semibold text-gray-600">Name</th>
+                                            <th className="p-2 font-semibold text-gray-600">Phone</th>
                                             <th className="p-2 font-semibold text-gray-600">Role</th>
                                             <th className="p-2 font-semibold text-gray-600">Pass Status</th>
                                         </tr>
@@ -138,6 +139,7 @@ const RegistrationDetailsModal = ({ registration, onClose }) => {
                                         {registration.team.leader && (
                                             <tr className="bg-blue-50/30">
                                                 <td className="p-2">{registration.team.leader.name} <span className="text-xs text-gray-500">({registration.team.leader.email})</span></td>
+                                                <td className="p-2 font-mono text-sm">{registration.team.leader.phoneNumber || 'N/A'}</td>
                                                 <td className="p-2"><span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-bold">Leader</span></td>
                                                 <td className="p-2">{getPassInfo(registration.team.leader)}</td>
                                             </tr>
@@ -145,6 +147,7 @@ const RegistrationDetailsModal = ({ registration, onClose }) => {
                                         {registration.team.members?.map(m => (
                                             <tr key={m.id}>
                                                 <td className="p-2">{m.user?.name} <span className="text-xs text-gray-500">({m.user?.email})</span></td>
+                                                <td className="p-2 font-mono text-sm">{m.user?.phoneNumber || 'N/A'}</td>
                                                 <td className="p-2"><span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">Member</span></td>
                                                 <td className="p-2">{getPassInfo(m.user)}</td>
                                             </tr>
@@ -267,6 +270,19 @@ const EventDetails = () => {
             accessorFn: row => row.team ? row.team.leader?.email : row.user?.email
         },
         {
+            header: 'Leader/User Phone',
+            accessorFn: row => row.team ? row.team.leader?.phoneNumber : row.user?.phoneNumber
+        },
+        {
+            header: 'Members',
+            accessorFn: row => {
+                if (row.team) {
+                    return row.team.members?.map(m => m.user?.name ? `${m.user?.name} (${m.user?.phoneNumber || 'N/A'})` : null).filter(Boolean).join('; ') || 'None';
+                }
+                return 'N/A';
+            }
+        },
+        {
             header: 'Has Pass',
             accessorFn: row => {
                 if (row.team) {
@@ -308,6 +324,19 @@ const EventDetails = () => {
         {
             header: 'Leader/User Email',
             accessorFn: row => row.team ? row.team.leader?.email : row.user?.email
+        },
+        {
+            header: 'Leader/User Phone',
+            accessorFn: row => row.team ? row.team.leader?.phoneNumber : row.user?.phoneNumber
+        },
+        {
+            header: 'Members',
+            accessorFn: row => {
+                if (row.team) {
+                    return row.team.members?.map(m => m.user?.name ? `${m.user?.name} (${m.user?.phoneNumber || 'N/A'})` : null).filter(Boolean).join('; ') || 'None';
+                }
+                return 'N/A';
+            }
         }
     ];
 
@@ -331,12 +360,12 @@ const EventDetails = () => {
                         {row.team ? (
                             <div>
                                 <div className="font-bold text-yellow-600 group-hover:text-yellow-800 underline decoration-dotted">Team: {row.team.name} ({row.team.teamcode})</div>
-                                <div className="text-xs text-gray-500">Leader: {row.team.leader.name}</div>
+                                <div className="text-xs text-gray-500">Leader: {row.team.leader.name} | {row.team.leader.phoneNumber || 'N/A'}</div>
                             </div>
                         ) : (
                             <div>
                                 <div className="font-bold group-hover:text-gray-900 underline decoration-dotted">{row.user?.name}</div>
-                                <div className="text-xs text-gray-500">{row.user?.email}</div>
+                                <div className="text-xs text-gray-500">{row.user?.email} | {row.user?.phoneNumber || 'N/A'}</div>
                             </div>
                         )}
                     </div>
@@ -462,12 +491,12 @@ const EventDetails = () => {
                         {row.team ? (
                             <div>
                                 <div className="font-bold text-yellow-600 group-hover:text-yellow-800 underline decoration-dotted">Team: {row.team.name}</div>
-                                <div className="text-xs text-gray-500">Leader: {row.team.leader?.name}</div>
+                                <div className="text-xs text-gray-500">Leader: {row.team.leader?.name} | {row.team.leader?.phoneNumber || 'N/A'}</div>
                             </div>
                         ) : (
                             <div>
                                 <div className="font-bold group-hover:text-gray-900 underline decoration-dotted">{row.user?.name}</div>
-                                <div className="text-xs text-gray-500">{row.user?.email}</div>
+                                <div className="text-xs text-gray-500">{row.user?.email} | {row.user?.phoneNumber || 'N/A'}</div>
                             </div>
                         )}
                     </div>
