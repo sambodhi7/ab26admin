@@ -114,9 +114,22 @@ const AppLayout = ({ children }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
 
+  const handleRelogin = () => {
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_user');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
       {!isLoginPage && <Navbar />}
+      {!isLoginPage && (
+        <div className="bg-amber-50 text-amber-800 text-[11px] sm:text-xs px-4 py-2 flex items-center justify-center gap-2 border-b border-amber-200 w-full z-30">
+          <span className="font-medium">Data appearing empty or not loading?</span>
+          <Link to="/login" onClick={handleRelogin} className="font-bold underline hover:text-amber-900 transition-colors">
+            Click here to relogin
+          </Link>
+        </div>
+      )}
       <div className={!isLoginPage ? "p-4 md:p-8" : ""}>
         {children}
       </div>
@@ -142,15 +155,15 @@ const App = () => {
             <Route path="/adming/scan-pass" element={<ScanPass />} />
 
             {/* Hidden Absurd Routes */}
-            <Route path="/admin/xyz-sales-69" element={<SalesAdmin />} />
-            <Route path="/admin/quantum-passes-69" element={<PassTypeAdmin />} />
-            <Route path="/admin/nebula-stay-69" element={<AccommodationTypeAdmin />} />
-            <Route path="/admin/portal-security-log-69" element={<AdminLogs />} />
-            <Route path="/admin/omega-manual-entry-x99" element={<ManualEntry />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/xyz-sales-69`} element={<SalesAdmin />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/quantum-passes-69`} element={<PassTypeAdmin />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/nebula-stay-69`} element={<AccommodationTypeAdmin />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/portal-security-log-69`} element={<AdminLogs />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/omega-manual-entry-x99`} element={<ManualEntry />} />
 
             {/* The Master Secret Portal */}
-            <Route path="/admin/shadow-fight-69" element={<HiddenPortal />} />
-            <Route path="/admin/god-mode-69" element={<AdminPowers />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/shadow-fight-69`} element={<HiddenPortal />} />
+            <Route path={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/god-mode-69`} element={<AdminPowers />} />
           </Route>
 
           {/* Fallback */}

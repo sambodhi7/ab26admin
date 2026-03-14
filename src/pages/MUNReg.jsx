@@ -385,10 +385,11 @@ const MUNReg = () => {
             header: 'Phone',
             accessorFn: row => row.user?.phoneNumber || ''
         },
-        // {
-        //     header: 'College',
-        //     accessorFn: row => row.user?.collegeName || ''
-        // },
+        {
+            header: 'Portfolio Allotted',
+            accessorFn: () => ''
+        },
+
         {
             header: 'Committee 1',
             accessorKey: 'committee1'
@@ -414,6 +415,14 @@ const MUNReg = () => {
             accessorKey: 'coDelegate2AbId'
         },
         {
+            header: 'Committee Allotted',
+            accessorFn: () => ''
+        },
+        {
+            header: 'Referral',
+            accessorFn: () => ''
+        },
+        {
             header: 'Experience',
             accessorFn: row => {
                 const p1 = (row.portfolios1 || [])[3];
@@ -421,7 +430,11 @@ const MUNReg = () => {
                 const items = [p1, p2].filter(Boolean);
                 return items.join('; ');
             }
-        }
+        },
+        {
+            header: 'College',
+            accessorFn: row => row.user?.collegeName || ''
+        },
     ];
 
     const columns = [

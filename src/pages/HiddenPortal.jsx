@@ -3,31 +3,21 @@ import { Link } from 'react-router-dom';
 
 const HiddenPortal = () => {
     const categories = [
-        {
-            title: "Core Management",
-            links: [
-                { to: "/admin/events", label: "Event Management", desc: "Create and edit main events" },
-                { to: "/admin/teams", label: "Team Management", desc: "View and manage registered teams" },
-                { to: "/admin/users", label: "User Database", desc: "Browse all registered users" },
-                { to: "/admin/munreg", label: "abMUN Board", desc: "MUN specific delegate allocations" },
-            ]
-        },
+
         {
             title: "Finance & Logistics",
             links: [
-                { to: "/admin/xyz-sales-69", label: "Sales Dashboard", desc: "Financial tracking and stats" },
-                { to: "/admin/quantum-passes-69", label: "Pass Types", desc: "Configure event pass pricing" },
-                { to: "/admin/nebula-stay-69", label: "Accommodation", desc: "Manage stay types and allocations" },
-                { to: "/admin/omega-manual-entry-x99", label: "Manual Entry", desc: "Bypass gateway for offline payments" },
+                { to: `/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/xyz-sales-69`, label: "Sales Dashboard", desc: "Financial tracking and stats" },
+                { to: `/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/quantum-passes-69`, label: "Pass Types", desc: "Configure event pass pricing" },
+                { to: `/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/nebula-stay-69`, label: "Accommodation", desc: "Manage stay types and allocations" },
+                { to: `/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/omega-manual-entry-x99`, label: "Manual Entry", desc: "Bypass gateway for offline payments" },
             ]
         },
         {
             title: "Security & Tools",
             links: [
-                { to: "/admin/lookup", label: "ABID Lookup", desc: "Quick delegate identification" },
-                { to: "/adming/scan-pass", label: "Pass Scanner", desc: "On-ground entry verification" },
-                { to: "/admin/portal-security-log-69", label: "Admin Logs", desc: "Security audit trail (Highly Sensitive)" },
-                { to: "/admin/god-mode-69", label: "God Mode", desc: "Direct User & Registration Manipulation" },
+                { to: `/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/portal-security-log-69`, label: "Admin Logs", desc: "Security audit trail (Highly Sensitive)" },
+                { to: `/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/god-mode-69`, label: "God Mode", desc: "Direct User & Registration Manipulation" },
             ]
         }
     ];

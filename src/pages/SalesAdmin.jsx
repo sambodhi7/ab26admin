@@ -299,7 +299,7 @@ const SalesAdmin = () => {
                     <p className="text-gray-500 font-medium text-sm">Read-only view of all financial activities.</p>
                 </div>
                 <Link
-                    to="/admin/omega-manual-entry-x99"
+                    to={`/admin/${import.meta.env.VITE_ADMIN_ROUTE_SECRET}/omega-manual-entry-x99`}
                     className="px-4 py-2 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-indigo-100 transition-all flex items-center gap-2"
                 >
                     <span className="text-lg">+</span> Manual Entry
