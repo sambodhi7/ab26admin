@@ -185,6 +185,7 @@ const MUNReg = () => {
     const [showMissing, setShowMissing] = useState(false);
     const [munEvent, setMunEvent] = useState(null);
     const [passFilter, setPassFilter] = useState('all'); // 'all', 'purchased', 'not-purchased'
+    const [sortRecentPass, setSortRecentPass] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
     const fetchMainRegistrations = async () => {
@@ -300,14 +301,30 @@ const MUNReg = () => {
     }, [allRegistrations, registrations]);
 
     const filteredRegistrations = React.useMemo(() => {
-        return registrations.filter(r => {
+        let result = registrations.filter(r => {
             const user = getUserInfoByAbId(r.d1AbId) || r.user;
             const hasPass = user?.purchasedPasses?.length > 0;
             if (passFilter === 'purchased') return hasPass;
             if (passFilter === 'not-purchased') return !hasPass;
             return true;
         });
-    }, [registrations, passFilter, userMap]);
+
+        if (sortRecentPass && passFilter === 'purchased') {
+            result.sort((a, b) => {
+                const userA = getUserInfoByAbId(a.d1AbId) || a.user;
+                const userB = getUserInfoByAbId(b.d1AbId) || b.user;
+                
+                const getLatestPassTime = (u) => {
+                    if (!u || !u.purchasedPasses || u.purchasedPasses.length === 0) return 0;
+                    return Math.max(...u.purchasedPasses.map(p => new Date(p.createdAt || 0).getTime()));
+                };
+                
+                return getLatestPassTime(userB) - getLatestPassTime(userA);
+            });
+        }
+
+        return result;
+    }, [registrations, passFilter, sortRecentPass, userMap]);
 
     const purchaseCounts = React.useMemo(() => {
         let purchased = 0;
@@ -608,19 +625,33 @@ const MUNReg = () => {
                     <p className="text-gray-500 font-medium text-sm">Model United Nations delegate management system.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                    <div className="flex bg-gray-100 p-1 rounded-lg gap-1 border border-gray-200">
+                    <div className="flex bg-gray-100 p-1 rounded-lg gap-1 border border-gray-200 items-center">
                         <button
                             onClick={() => setPassFilter('all')}
                             className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'all' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                         >
                             All ({purchaseCounts.total})
                         </button>
-                        <button
-                            onClick={() => setPassFilter('purchased')}
-                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'purchased' ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-gray-500 hover:text-emerald-600'}`}
-                        >
-                            Pass ({purchaseCounts.purchased})
-                        </button>
+                        <div className="flex gap-1">
+                            <button
+                                onClick={() => setPassFilter('purchased')}
+                                className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'purchased' ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-gray-500 hover:text-emerald-600'}`}
+                            >
+                                Pass ({purchaseCounts.purchased})
+                            </button>
+                            {passFilter === 'purchased' && (
+                                <button
+                                    onClick={() => setSortRecentPass(!sortRecentPass)}
+                                    className={`px-2 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 border ${sortRecentPass ? 'bg-emerald-50 text-emerald-700 border-emerald-300 shadow-inner' : 'bg-white text-gray-500 border-transparent hover:border-gray-200 shadow-sm'}`}
+                                    title="Toggle Sort by Most Recent Pass Purchase"
+                                >
+                                    <svg className={`w-3 h-3 ${sortRecentPass ? 'text-emerald-600' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4h13M3 8h9M3 12h5m0 0v8m0-8l-3 3m3-3l3 3" />
+                                    </svg>
+                                    Recent
+                                </button>
+                            )}
+                        </div>
                         <button
                             onClick={() => setPassFilter('not-purchased')}
                             className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${passFilter === 'not-purchased' ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20' : 'text-gray-500 hover:text-rose-600'}`}
